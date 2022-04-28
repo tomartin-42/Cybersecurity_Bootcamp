@@ -1,7 +1,3 @@
-/**
-    >cl simple.c -Zi /DYNAMICBASE:NO /GS- /Gs- /link /FIXED /DEBUG
-    >editbin simple.exe /NXCOMPAT:NO
-*/
 #include <stdio.h>
 #include <string.h>
 
