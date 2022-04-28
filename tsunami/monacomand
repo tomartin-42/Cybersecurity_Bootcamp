@@ -1,0 +1,2 @@
+-- Para cojer un JMP
+!mona jmp -r esp
