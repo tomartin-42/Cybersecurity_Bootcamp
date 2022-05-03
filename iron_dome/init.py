@@ -3,33 +3,31 @@ import os
 import sys
 from os import scandir, getcwd
 
-all_files = ('.*')
+all_files = [None]
 files = []
-dirs = []
 
-def ls(exten, ruta = getcwd()):
-    aux = [abspath(arch.path) for arch in scandir(ruta) if arch.is_file()]
-    for a in aux:
-        a = str(a)
-        if os.path.splitext(a)[1] in exten:
-            files.append(a)
+def list_files(dir_scan, files_extension):
+    for nombre_directorio, dirs, ficheros in os.walk(dir_scan[0]):
+        for nombre_fichero in ficheros:
+            root, extension = os.path.splitext(nombre_fichero)
+            if files_extension[0] == None: 
+                files.append(nombre_directorio + '/' + nombre_fichero)
+            else:
+                if extension in files_extension:
+                    files.append(nombre_directorio + '/' + nombre_fichero)
 
 def main():
     parser = ArgumentParser()
     parser.add_argument("folder", nargs='+', type=str) 
     args = parser.parse_args()
+    #Busca todos los files in folder
     if len(sys.argv) == 2:
-        for elem in os.walk(args.folder[0]):
-            dirs.append(elem)
-        print(dirs)
-        for sub_d in dirs:
-            #print(type(sub_d))
-            ls(all_files, str(sub_d))
-        #Busca todos los files in folder
+        list_files(args.folder, all_files)
     else:
-        print("more than one")
-        #print(args)
-        #Busca solo los files con le extensión
+        all_files.pop(0)
+        for extension in args.folder[1:]:
+            all_files.append(extension)
+        list_files(args.folder, all_files)
 
 if __name__ == '__main__':
     main()
