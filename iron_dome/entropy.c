@@ -6,7 +6,7 @@
 /*   By: tomartin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/01 15:23:27 by tomartin          #+#    #+#             */
-/*   Updated: 2022/05/01 17:46:15 by tomartin         ###   ########.fr       */
+/*   Updated: 2022/05/02 13:06:51 by tomartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ float	entropy(char *file)
 		load_bytes_to_file(fd, table);
 		entropy = calc_entropy(table);
 	}
+	printf("%f\n", entropy);
 	return entropy;
 }
 
