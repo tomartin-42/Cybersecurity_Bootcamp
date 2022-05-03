@@ -13,16 +13,20 @@ t_file *init_values(int argc, char **argv)
 	i = 0;
 	while(i < argc - 1)
 	{
+		scan_f[i].n_arg = argc - 1;
 		scan_f[i].file_numb = i;
 		scan_f[i].file = strdup(argv[i + 1]);
 		scan_f[i].entropy = entropy(scan_f[i].file);
 		scan_f[i].new_entropy = 0;
 		i++;
 	}
+	return scan_f;
 }
 
 int	main(int argc, char **argv)
 {
+	t_file	*scan_f;
+
 	if (argc == 1)
 	{	
 		dprintf(STDERR_FILENO, "[ERROR]"
@@ -30,7 +34,10 @@ int	main(int argc, char **argv)
             "You must provide a path as argument\n");
         exit(1);
 	}
-	init_values(argc, argv);
+	scan_f = init_values(argc, argv);
+	init_entropy_rutine(scan_f);
+	while (1)
+		sleep (5);
 	return 0;
 }
 

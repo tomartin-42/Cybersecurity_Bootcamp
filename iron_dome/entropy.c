@@ -79,7 +79,6 @@ float	entropy(char *file)
 		load_bytes_to_file(fd, table);
 		entropy = calc_entropy(table);
 	}
-	printf("%f\n", entropy);
 	return entropy * 100;
 }
 
