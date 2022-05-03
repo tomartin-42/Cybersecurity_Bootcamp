@@ -14,6 +14,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <math.h>
+#include "scaner.h"
 
 static void	init_table(int *table)
 {
@@ -79,12 +80,7 @@ float	entropy(char *file)
 		entropy = calc_entropy(table);
 	}
 	printf("%f\n", entropy);
-	return entropy;
+	return entropy * 100;
 }
 
-int main(int argec, char** argv)
-{
-	entropy(argv[1]);
-	return 0;
-}
 
