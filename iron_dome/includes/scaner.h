@@ -12,6 +12,8 @@ typedef struct s_file{
 	int		n_arg;
 	int		file_numb;
 	char	*file;
+	int		n_read;
+	int		watch_fd;
 	float	entropy;
 	float	new_entropy;
 } t_file;
@@ -20,5 +22,8 @@ float	entropy(char *file);
 
 void	init_entropy_rutine(t_file *scan_f);
 void	*rutinei_entropy(void *arg);
+
+void	init_notify_rutine(t_file *scan_f);
+void	*rutine_inotify(void *arg);
 #endif
 

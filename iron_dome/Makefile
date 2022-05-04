@@ -33,7 +33,7 @@ OBJ_DIR = ./obj/
 INC_DIR = ./includes/
 
 # Source files and object files
-SRC_FILES = entropy.c entropy_rutine.c scaner.c
+SRC_FILES = entropy.c entropy_rutine.c scaner.c inotify_rutine.c
 INC_FILES = scaner.h
 
 OBJ_FILES = $(SRC_FILES:.c=.o)
