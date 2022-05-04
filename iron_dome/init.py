@@ -2,9 +2,23 @@ from argparse import ArgumentParser
 import os
 import sys
 from os import scandir, getcwd
+import pathlib
+
 
 all_files = [None]
 files = []
+
+def print_services():
+    bin_path = pathlib.Path(__file__).parent.absolute()
+    service_name = "/etc/systemd/system/irondome.service"
+    arg_files = str()
+    for part in files:
+        arg_files += str(part)
+        arg_files += " " 
+    with open(service_name, "w") as archivo:
+        archivo.write("[Unit]\nDescription=Irondome service\n\n")
+        archivo.write("[Service]\nExecStaart=" + bin_path + "irondome" + arg_files) 
+    archivo.close()
 
 def list_files(dir_scan, files_extension):
     for nombre_directorio, dirs, ficheros in os.walk(dir_scan[0]):
@@ -28,6 +42,7 @@ def main():
         for extension in args.folder[1:]:
             all_files.append(extension)
         list_files(args.folder, all_files)
+    print_services()
 
 if __name__ == '__main__':
     main()
