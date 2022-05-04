@@ -11,7 +11,7 @@ static void	print_warning_entropy(t_file *scan_f, int i)
 	struct	tm tm = *localtime(&t);
 	FILE	*fd;
 
-	fd = fopen(TEMPORAL_LOG_FILE, "w");
+	fd = fopen(TEMPORAL_LINUX_LOG_FILE, "w");
 	fprintf(fd, "[%d-%02d-%02d %02d:%02d:%02d] WARNING ", tm.tm_year + 1900, 
 		tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
 	fprintf(fd, "%s ", scan_f[i].file);

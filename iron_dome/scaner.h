@@ -5,6 +5,8 @@
 # define ENTROPY_GATE 0.2
 # define LOG_FILE "/var/log/irondome/irondome.log"
 # define TEMPORAL_LOG_FILE "/Users/tomartin/sgoinfre/cybersec_bootcamp/iron_dome/log"
+# define TEMPORAL_LINUX_LOG_FILE "/home/tommy/Cybersecurity_Bootcamp/iron_dome/log"
+
 
 typedef struct s_file{
 	int		n_arg;
