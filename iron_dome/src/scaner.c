@@ -16,6 +16,7 @@ t_file *init_values(int argc, char **argv)
 		scan_f[i].n_arg = argc - 1;
 		scan_f[i].file_numb = i;
 		scan_f[i].file = strdup(argv[i + 1]);
+		scan_f[i].n_read = 0;
 		scan_f[i].entropy = entropy(scan_f[i].file);
 		scan_f[i].new_entropy = 0;
 		i++;
