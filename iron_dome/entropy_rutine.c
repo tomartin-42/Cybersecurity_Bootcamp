@@ -14,12 +14,11 @@ void	*(rutine_entropy(void *arg))
 		i = 0;
 		while(i < scan_f[0].n_arg)
 		{
-			printf("HOLA1\n");
 			scan_f[i].new_entropy = entropy(scan_f[i].file);
-			printf("old %f\n new %f\n file %s",scan_f[i].entropy, scan_f[i].new_entropy, scan_f[i].file);
-			if(scan_f[i].new_entropy * ENTROPY_GATE > scan_f[i].entropy)
+			printf("old %f\nnew %f\nfile %s\n",scan_f[i].entropy, scan_f[i].new_entropy, scan_f[i].file);
+			if(scan_f[i].new_entropy > (scan_f[i].entropy * ENTROPY_GATE) + scan_f[i].entropy)
 				//PRINTEA WARNING
-				printf("WARNING");
+				printf("WARNING %f\n", scan_f[i].new_entropy * ENTROPY_GATE);
 			scan_f[i].entropy = scan_f[i].new_entropy;
 			i++;
 		}

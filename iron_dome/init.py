@@ -17,7 +17,7 @@ def print_services():
         arg_files += " " 
     with open(service_name, "w") as archivo:
         archivo.write("[Unit]\nDescription=Irondome service\n\n")
-        archivo.write("[Service]\nExecStaart=" + bin_path + "irondome" + arg_files) 
+        archivo.write("[Service]\nExecStart=" + str(bin_path) + "/irondome " + arg_files) 
     archivo.close()
 
 def list_files(dir_scan, files_extension):

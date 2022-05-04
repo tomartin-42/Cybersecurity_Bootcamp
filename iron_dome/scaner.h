@@ -1,8 +1,8 @@
 #ifndef _SCANER_H
 # define _SCANER_H
 
-# define TIME_ENTROPY 30
-# define ENTROPY_GATE 1.2
+# define TIME_ENTROPY 10
+# define ENTROPY_GATE 0.2
 # define LOG_FILE "/var/log/irondome/irondome.log"
 
 typedef struct s_file{
