@@ -1,6 +1,6 @@
 #ifndef _SCANER_H
+#include <pthread.h>
 # define _SCANER_H
-
 # define TIME_ENTROPY 10
 # define ENTROPY_GATE 0.2
 # define LOG_FILE "/var/log/irondome/irondome.log"
@@ -18,12 +18,20 @@ typedef struct s_file{
 	float	new_entropy;
 } t_file;
 
+typedef struct s_event{
+    int				wd;
+    unsigned int	mask;
+    unsigned int	cookie;
+    unsigned int	len;
+    char			path[];
+} t_event;
+
 float	entropy(char *file);
 
-void	init_entropy_rutine(t_file *scan_f);
+void	init_entropy_rutine(t_file *scan_f, pthread_t thread);
 void	*rutinei_entropy(void *arg);
 
-void	init_notify_rutine(t_file *scan_f);
+void	init_inotify_rutine(t_file *scan_f, pthread_t thread);
 void	*rutine_inotify(void *arg);
 #endif
 

@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
+#include <pthread.h>
 #include <stdio.h>
 #include <unistd.h>
 #include "scaner.h"
@@ -26,7 +27,8 @@ t_file *init_values(int argc, char **argv)
 
 int	main(int argc, char **argv)
 {
-	t_file	*scan_f;
+	t_file		*scan_f;
+	pthread_t	thread;
 
 	if (argc == 1)
 	{	
@@ -36,7 +38,9 @@ int	main(int argc, char **argv)
         exit(1);
 	}
 	scan_f = init_values(argc, argv);
-	init_entropy_rutine(scan_f);
+	pthread_join(thread, NULL);
+	init_entropy_rutine(scan_f, thread);
+	init_inotify_rutine(scan_f, thread);
 	while (1)
 		sleep (5);
 	return 0;

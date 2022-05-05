@@ -24,7 +24,7 @@ RESET = \033[0m
 NAME = irondome
 
 # Compiling flags
-FLAGS = #-Wall -Wextra -Werror #-g3 -fsanitize=address
+FLAGS = -g3 -fsanitize=address
 
 
 # Folders

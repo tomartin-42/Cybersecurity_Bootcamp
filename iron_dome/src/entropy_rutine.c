@@ -43,10 +43,7 @@ void	*(rutine_entropy(void *arg))
 	}
 }
 
-void init_entropy_rutine(t_file *scan_f)
+void init_entropy_rutine(t_file *scan_f, pthread_t thread)
 {
-	pthread_t	thread;
-	
-	pthread_join(thread, NULL);
 	pthread_create(&thread,	NULL, rutine_entropy, scan_f);
 }
