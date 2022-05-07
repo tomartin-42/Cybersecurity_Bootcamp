@@ -4,19 +4,30 @@
 #include <sys/inotify.h>
 #include "scaner.h"
 
-static void	print_inotify(t_event aux)
+static void	print_inotify(int len, char *buff)
 {
 	FILE	*fd;
+	int		i;
+	t_event *event;
 
+	i = 0;
 	fd = fopen(TEMPORAL_LINUX_LOG_FILE, "a");
-	//fprintf(fd, "%d - %d - %d - %d - %s\n", aux.wd, aux.mask, aux.cookie, aux.len, aux.path);
-	fprintf(fd, "%d - %d \n", aux.wd, aux.len);
+	while(i < len)
+	{
+		event = (t_event *) &(buff[i]);
+		fprintf(fd, "%d - %d - %d - %d - %s\n", 
+				event->wd, event->mask, event->cookie, event->len, event->path);
+		//fprintf(fd, "name = %s \n", event.name);
+		i += EVENT_SIZE + event->len;
+	}
 	fclose(fd);
 }
 
 static void read_events(t_file *scan_f)
 {
-	t_event	event;
+	char	buff[BUFF_LEN];
+	int		len;
+	int		i;
 	int		aux;
 
 	aux = scan_f[0].n_arg;
@@ -24,8 +35,9 @@ static void read_events(t_file *scan_f)
 	{
 		while(aux >= 0)
 		{
-			read(scan_f[aux].watch_fd, &event, sizeof(t_event) + event.len);
-			print_inotify(event);
+			len = read(scan_f[aux].watch_fd, buff, BUFF_LEN);
+			printf("-- %d * %d --\n", sizeof(buff), len);
+			print_inotify(len, buff);
 			aux--;
 		}
 		sleep(5);
@@ -39,7 +51,7 @@ static void	init_files_watch_to_read(t_file *scan_f, int i_fd)
 	aux = scan_f[0].n_arg;
 	while(aux >= 0)
 	{
-		scan_f[aux].watch_fd = inotify_add_watch(i_fd, scan_f[aux].file, IN_ACCESS);
+		scan_f[aux].watch_fd = inotify_add_watch(i_fd, scan_f[aux].file, IN_ACCESS | IN_OPEN);
 		aux--;
 	}
 	read_events(scan_f);
