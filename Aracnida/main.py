@@ -8,10 +8,9 @@ def get_one_url():
     urls = set(urls)
     urls = list(urls)
     for e in urls: 
-        if url not in e:
+        if url != e[0:len(url)]:
             urls.remove(e)
             continue
-    print(urls)
 
 if __name__ == '__main__':
     get_one_url()
