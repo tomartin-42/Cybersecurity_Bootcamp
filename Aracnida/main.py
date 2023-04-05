@@ -4,7 +4,7 @@ import re
 file_include = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.docx', '.pdf']
 file_list = []
 # urls_list = {'https://www.cesif.es': 1}
-max_lvl = 7
+max_lvl = 2
 url_to_visit = set()
 file_list = set()
 visit_list = set()
@@ -17,13 +17,12 @@ def extract_urls(urls_list):
     return aux
 
 
-def extract_files(urls_list):
+def extract_files(urls_list, url):
     aux = set()
     for e in urls_list.copy():
-        if re.search(r'\.[a-zA-Z0-9]{2,4}$', e):
+        if re.search(r'\.[a-zA-Z0-9]{2,4}$', e) and e != url:
             urls_list.pop(e)
             aux.add(e)
-
     return aux
 
 
@@ -79,19 +78,18 @@ def get_one_url(url, lvl=0):
 
 if __name__ == '__main__':
     temp = get_one_url('https://www.cesif.es')
-    file_list = extract_files(temp)
+    file_list = extract_files(temp, 'https://www.cesif.es')
     url_to_visit = extract_urls(temp)
+    url_to_visit.add('https://www.cesif.es')
     while True:
         for e in url_to_visit:
             if e not in visit_list:
                 temp = get_one_url(e)
-                file_list.difference(extract_files(temp))
+                file_list.difference(extract_files(temp, 'https://www.cesif.es'))
                 tmp_visit = extract_urls(temp)
                 break
-        prev = len(url_to_visit)
         url_to_visit.difference(tmp_visit)
-        second = len(url_to_visit)
-        if prev == second:
+        if visit_list == url_to_visit:
             break
 
     # for e in urls_list.copy():
@@ -101,8 +99,13 @@ if __name__ == '__main__':
     # recursive_get_partials_url('https://www.cesif.es', 'https://www.cesif.es/uno/dos/tres/kk.gif', 0)
     # print(urls_list)
     print(file_list)
+    print()
+    print()
+    print()
     print("URLS: ")
-    print()
-    print()
-    print()
     print(url_to_visit)
+    print()
+    print()
+    print()
+    print("VISIT: ")
+    print(visit_list)
