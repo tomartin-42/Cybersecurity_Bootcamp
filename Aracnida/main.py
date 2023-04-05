@@ -4,22 +4,27 @@ import re
 file_include = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.docx', '.pdf']
 file_list = []
 # urls_list = {'https://www.cesif.es': 1}
-max_lvl = 3
+max_lvl = 7
 url_to_visit = set()
 file_list = set()
 visit_list = set()
 
 
 def extract_urls(urls_list):
+    aux = set()
     for e in urls_list:
-        url_to_visit.add(e)
+        aux.add(e)
+    return aux
 
 
 def extract_files(urls_list):
+    aux = set()
     for e in urls_list.copy():
         if re.search(r'\.[a-zA-Z0-9]{2,4}$', e):
-            file_list.add(e)
             urls_list.pop(e)
+            aux.add(e)
+
+    return aux
 
 
 def delete_no_accept_files(url, urls_list):
@@ -67,22 +72,37 @@ def get_one_url(url, lvl=0):
         for e in urls:
             recursive_get_partials_url(url, e, lvl, urls_list)
         delete_no_accept_files(url, urls_list)
-        extract_files(urls_list)
-        extract_urls(urls_list)
+        # extract_files(urls_list)
+        # extract_urls(urls_list)
+        return urls_list
 
 
 if __name__ == '__main__':
-    i = 0
-    get_one_url('https://www.cesif.es', i)
+    temp = get_one_url('https://www.cesif.es')
+    file_list = extract_files(temp)
+    url_to_visit = extract_urls(temp)
+    while True:
+        for e in url_to_visit:
+            if e not in visit_list:
+                temp = get_one_url(e)
+                file_list.difference(extract_files(temp))
+                tmp_visit = extract_urls(temp)
+                break
+        prev = len(url_to_visit)
+        url_to_visit.difference(tmp_visit)
+        second = len(url_to_visit)
+        if prev == second:
+            break
+
     # for e in urls_list.copy():
     #    get_one_url(e, urls_list[e])
     # recursive_get_partials_url('https://www.cesif.es', 'https://www.cesif.es/uno/dos/tres/cuatro/cinco', 1)
     # recursive_get_partials_url('https://www.cesif.es', 'https://www.cesif.es/uno/dos/tres', 1)
     # recursive_get_partials_url('https://www.cesif.es', 'https://www.cesif.es/uno/dos/tres/kk.gif', 0)
     # print(urls_list)
-    i += 1
-    for e in url_to_visit.copy():
-        get_one_url(e, i)
-        i += 1
     print(file_list)
-    # print(url_to_visit)
+    print("URLS: ")
+    print()
+    print()
+    print()
+    print(url_to_visit)
