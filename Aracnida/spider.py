@@ -23,7 +23,6 @@ def spider(args):
     print("url to visit ", target.get_url_to_visit())
     print()
     print(target.get_list_file())
-    
 
 if __name__ == '__main__':
     spider(args)
