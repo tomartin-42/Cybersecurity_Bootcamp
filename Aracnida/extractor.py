@@ -9,16 +9,17 @@ class Extractor:
 
     def __init__(self, url, deep_lvl=5):
         self.url = url
-        self.max_lvl = deep_lvl
+        self.max_lvl = deep_lvl + 1
         self.url_to_visit = set()
         self.file_list = set()
         self.visit_list = set()
-        temp = self._get_one_url(self.url)
-        self.file_list.update(self._extract_files(temp))
-        self.visit_list.add(self.url)
+        #temp = self._get_one_url(self.url)
+        #self.file_list.update(self._extract_files(temp))
+        #self.visit_list.add(self.url)
+        self.url_to_visit.add(self.url)
         p1 = log.progress('Spider') 
-        for e in temp:
-            self._extract_urls(e, self.url)
+        #for e in temp:
+        #   self._extract_urls(e, self.url)
         flag = True
         while flag:
             prev = len(self.url_to_visit)
@@ -65,7 +66,7 @@ class Extractor:
                 'https?://(?:[-\w.]|(?:%[\da-fA-F]{2}))+[/\w\.-]*(?:\?[\w\d%&=]*)?(?:#[\w\d-]*)?(?<![\.,])', r.text)
             urls = set(urls)
             self._clean_up_urls(url, urls)
-            for e in urls: # remove element if not in range
+            for e in urls.copy(): # remove element if not in range
                 if not self.in_range(e):
                     urls.remove(e)
             return urls 
@@ -78,7 +79,7 @@ class Extractor:
 
     def in_range(self, element):
         aux = element[len(self.url):]
-        if aux.count('/') <= self.max_lvl and aux.count('/') != -1:
+        if aux.count('/') < self.max_lvl and aux.count('/') != -1:
             return True
         else:  # if not in range, delete
             return False
