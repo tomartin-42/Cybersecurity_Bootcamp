@@ -1,7 +1,7 @@
 import requests
 import re
 from pwn import *
-import time
+import os
 
 
 class Extractor:
@@ -13,13 +13,8 @@ class Extractor:
         self.url_to_visit = set()
         self.file_list = set()
         self.visit_list = set()
-        #temp = self._get_one_url(self.url)
-        #self.file_list.update(self._extract_files(temp))
-        #self.visit_list.add(self.url)
         self.url_to_visit.add(self.url)
         p1 = log.progress('Spider') 
-        #for e in temp:
-        #   self._extract_urls(e, self.url)
         flag = True
         while flag:
             prev = len(self.url_to_visit)
@@ -117,6 +112,10 @@ class Extractor:
         return aux
 
     def get_list_file(self):
+        for e in self.file_list.copy():
+            aux = os.path.splitext(e)[1]
+            if aux not in self.file_include:
+                self.file_list.remove(e)
         return self.file_list
 
     def get_visit_list(self):
