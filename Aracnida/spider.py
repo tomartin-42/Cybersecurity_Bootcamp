@@ -4,18 +4,20 @@ import argparse
 description = 'Extract jpg, jpeg, png, gif, bmp, docx and pdf files from a url'
 
 parser = argparse.ArgumentParser(prog='spider', description=description)
-parser.add_argument('-r', action='store_true',
-                    help='If -r is present, download all file in url')
-parser.add_argument('-l', type=int, default=5,
+parser.add_argument('-r', metavar='URL', required=True, type=str,
+                    help='-r download all file in url')
+parser.add_argument('-l', type=int, default=99, nargs='?',
                     help='Inser deep lvl. If exclude deep lvl, spider get all files')
-parser.add_argument('-p', type=str,
+parser.add_argument('-p', metavar='PATH', type=str, default='./data/',
                     help='Indicate path where download files')
-parser.add_argument('URL', type=str,
-                    help='Url from download files')
 
 args = parser.parse_args()
 
-
 def spider(args):
-    print(args)
+    if args.l == None:
+        args.l = 5
+    print("arg.r ", args.r, "\narg.l ", args.l, "\narg.p ", args.p)
     pass
+
+if __name__ == '__main__':
+    spider(args)

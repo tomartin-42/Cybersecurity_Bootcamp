@@ -4,7 +4,7 @@ import re
 file_include = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.docx', '.pdf']
 file_list = []
 # urls_list = {'https://www.cesif.es': 1}
-max_lvl = 2
+max_lvl = 5
 url_to_visit = set()
 file_list = set()
 visit_list = set()
