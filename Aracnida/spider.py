@@ -1,5 +1,6 @@
 import extractor
 import argparse
+import downloader
 
 description = 'Extract jpg, jpeg, png, gif, bmp, docx and pdf files from a url'
 
@@ -15,14 +16,9 @@ args = parser.parse_args()
 def spider(args):
     if args.l == None:
         args.l = 5
-    #print("arg.l ", args.l, "\narg.r ", args.r, "\narg.p ", args.p)
     target = extractor.Extractor(args.r, args.l)
-    print("We have found ", len(target.get_list_file()), " files")
-    print("visit list ", target.get_visit_list())
-    print()
-    print("url to visit ", target.get_url_to_visit())
-    print()
-    print(target.get_list_file())
+    down = downloader.Downloader(target.file_list, args.p)
+
 
 if __name__ == '__main__':
     spider(args)

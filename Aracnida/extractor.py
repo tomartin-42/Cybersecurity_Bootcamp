@@ -29,6 +29,11 @@ class Extractor:
             print((prev, post))
             if prev == post:
                 flag = False
+        for e in self.file_list.copy():
+            aux = os.path.splitext(e)[1]
+            if aux not in self.file_include:
+                self.file_list.remove(e)
+        
         """
         file_list = self._extract_files(temp, self.url)
         self.url_to_visit = self._extract_urls(temp)
@@ -112,10 +117,6 @@ class Extractor:
         return aux
 
     def get_list_file(self):
-        for e in self.file_list.copy():
-            aux = os.path.splitext(e)[1]
-            if aux not in self.file_include:
-                self.file_list.remove(e)
         return self.file_list
 
     def get_visit_list(self):
