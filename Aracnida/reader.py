@@ -1,5 +1,6 @@
 import os
-import pyexiv2
+import piexif
+from PIL import Image
 
 class Reader:
     
@@ -9,8 +10,9 @@ class Reader:
         self.info_list = []
         for file in file_list:
             file_type = os.path.splitext(file)[1]
+            file_complet = os.getcwd() + '/' + file
             if file_type in self.graphic_files:
-                self.read_graphic_file(file)
+                self.read_graphic_file(file_complet)
             elif file_type == '.docx':
                 print(f'{file} is a docx file')
             elif file_type == '.pdf':
@@ -20,10 +22,12 @@ class Reader:
                 exit(1)
 
     def read_graphic_file(self, file):
-        print(file)
-        metadata = pyexiv2.ImageMetadata(file)
-        metadata.read()
+        image = Image.open(file)
+        exif = image._getexif()
 
-        for key in metadata.exif_keys:
-            print(key, metadata[key].value)
+        if exif is not None:
+            for tag, value in exif.items():
+                print(f"{tag}: {value}")
+        else:
+            print("La imagen no tiene datos exif.")
 
