@@ -8,7 +8,7 @@ parser.add_argument("file", metavar="FILE", type=str, nargs='+' ,help="Files to 
 args = parser.parse_args()
 
 def scorpion(args):
-    win.Win(args.file)
+    win.Main_Win(args.file)
 
 if __name__ == '__main__':
     scorpion(args)
