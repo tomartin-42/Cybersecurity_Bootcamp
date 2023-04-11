@@ -1,7 +1,7 @@
 import tkinter
 from tkinter import ttk
 import filemanager
-
+import subprocess
 
 class Main_Win(filemanager.Reader):
     def __init__(self, args):
@@ -41,6 +41,8 @@ class Main_Win(filemanager.Reader):
 
 class Tree_Win():
     def __init__(self, data_list, frame, position):
+        self.data_list = data_list
+        self.position = position
         self.tree = ttk.Treeview(frame, columns=(
             'Label', 'Value'), show='headings')
         self.tree.configure(height=len(data_list[0]))
@@ -55,6 +57,11 @@ class Tree_Win():
     def edit_value(self, event):
 
         def actualizar():
+            cmd = ["exiftool", '-' + row_data['values'][0] + '=' + input.get(), self.data_list[self.position]['SourceFile']] 
+            subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            self.data_list[self.position][row_data['values'][0]] = input.get()
+            top.destroy()
+            self.update_tree(self.data_list, self.position)
             print("Actualizando")
 
         def cancle():
@@ -69,7 +76,7 @@ class Tree_Win():
 
         # Creamos una nueva ventana para mostrar el Entry
         top = tkinter.Toplevel(self.tree.winfo_toplevel())
-        top.geometry("400x100")
+        top.geometry("800x100")
 
         # Creamos una entrada para editar el valor
         input = tkinter.Entry(top, width=50)

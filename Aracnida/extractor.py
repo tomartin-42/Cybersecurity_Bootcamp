@@ -34,29 +34,6 @@ class Extractor:
             if aux not in self.file_include:
                 self.file_list.remove(e)
         
-        """
-        file_list = self._extract_files(temp, self.url)
-        self.url_to_visit = self._extract_urls(temp)
-        self.url_to_visit.add(self.url)
-        while True:
-            for e in self.url_to_visit:
-                if e not in self.visit_list:
-                    p1.status('Scaning URL: ' + e + '')
-                    temp = self._get_one_url(e)
-                    tmp_visit = self._extract_urls(temp)
-                    file_tmp = self._extract_files(temp, self.url)
-                    self.file_list.update(file_tmp)
-                    #self.file_list.update(self._extract_files(
-                    #    temp, self.url))
-                    # print("filelist ", self.file_list)
-                    break
-            try:
-                self.url_to_visit.update(tmp_visit)
-                if self.visit_list == self.url_to_visit:
-                    break
-            except:
-                break
-        """
 
     def _get_one_url(self, url, lvl=0):
         if url not in self.visit_list:
@@ -83,20 +60,6 @@ class Extractor:
             return True
         else:  # if not in range, delete
             return False
-    """
-    def _recursive_get_partials_url(self, main_url, complete_url, lvl, urls_list):
-        if lvl >= self.max_lvl or main_url == complete_url:
-            return
-        else:
-            slash = '/'
-            aux = complete_url[len(main_url):]
-            if aux.find('/') != -1:
-                add_str = aux[aux.find('/') + 1:]
-            else:
-                add_str = ''
-            urls_list[main_url + add_str] = lvl + 1
-            self._recursive_get_partials_url(main_url + add_str, complete_url, lvl + 1, urls_list)
-    """
 
     def _extract_urls(self, element, head_str):
         if element == head_str:

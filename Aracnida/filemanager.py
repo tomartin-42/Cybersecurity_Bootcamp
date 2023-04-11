@@ -25,6 +25,3 @@ class Reader:
     
     def get_info_list(self):
         return self.info_list
-
-class Alterator:
-    pass
