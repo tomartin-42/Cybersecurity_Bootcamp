@@ -9,11 +9,15 @@ class Downloader:
     def __init__(self, file_list, path):
         self.path = os.getcwd() + '/' + path
         self.download_list = {f"{self.path}{i:04}_{self.extract_file_name(file)}": file for i, file in enumerate(file_list)}
-        os.makedirs(self.path, exist_ok=True)
-        with open(path + "download.txt", 'w') as f:
-            for e in file_list:
-                f.write(e + '\n')
-        self.multi_download()
+        try:
+            os.makedirs(self.path, exist_ok=True)
+            with open(path + "download.txt", 'w') as f:
+                for e in file_list:
+                    f.write(e + '\n')
+            self.multi_download()
+        except:
+            print('Error in download')
+            exit(1)
 
     def extract_file_name(self, url):
         return url.split('/')[-1]
