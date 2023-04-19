@@ -29,8 +29,8 @@ class Downloader:
             p1.status(f'Downloading {path_file}')
             f.write(r.content)
 
-    def multi_download(self):
-        pool = ThreadPool(10)
+    def multi_download(self, tread=20):
+        pool = ThreadPool(tread)
         pool.starmap(self.download, self.download_list.items())
         pool.close()
         pool.join()
