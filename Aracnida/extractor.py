@@ -42,16 +42,15 @@ class Extractor:
                 'https?://(?:[-\w.@#%]|(?:%[\da-fA-F]{2}))+[/\w\.-]*(?:\?[\w\d%&=]*)?(?:#[\w\d-]*)?(?<![\.,@-])', r.text)
                 #'https?://(?:[-\w.]|(?:%[\da-fA-F]{2}))+[/\w\.-]*(?:\?[\w\d%&=]*)?(?:#[\w\d-]*)?(?<![\.,])', r.text)
             urls = set(urls)
-            self._clean_up_urls(url, urls)
+            self._clean_up_urls(urls)
             for e in urls.copy(): # remove element if not in range
                 if not self.in_range(e):
                     urls.remove(e)
             return urls 
 
-    def _clean_up_urls(self, url, urls):
+    def _clean_up_urls(self, urls):
         for e in urls.copy():
-            if e.find(url) == -1:
-                print("Quitando: ", e)
+            if e.find(self.url) == -1:
                 urls.remove(e)
 
 
@@ -60,7 +59,6 @@ class Extractor:
         if aux.count('/') < self.max_lvl and aux.count('/') != -1:
             return True
         else:  # if not in range, delete
-            print("HI")
             return False
 
     def _extract_urls(self, element, head_str):
@@ -77,12 +75,14 @@ class Extractor:
         aux = set()
         for e in list_.copy():
             tmp = e[len(self.url):]
-            print("Scan file: ", tmp)
             if re.search(r'\.[a-zA-Z0-9]{2,4}$', tmp):
                 aux.add(e)
         return aux
 
     def get_list_file(self):
+        for e in self.file_list.copy():
+            if not len(e):
+                self.file_list.remove(e)
         return self.file_list
 
     def get_visit_list(self):

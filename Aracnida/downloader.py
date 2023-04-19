@@ -10,6 +10,9 @@ class Downloader:
         self.path = os.getcwd() + '/' + path
         self.download_list = {f"{self.path}{i:04}_{self.extract_file_name(file)}": file for i, file in enumerate(file_list)}
         os.makedirs(self.path, exist_ok=True)
+        with open(path + "download.txt", 'w') as f:
+            for e in file_list:
+                f.write(e + '\n')
         self.multi_download()
 
     def extract_file_name(self, url):
