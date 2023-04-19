@@ -7,7 +7,7 @@ import os
 class Extractor:
     file_include = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.docx', '.pdf']
 
-    def __init__(self, url, deep_lvl=5):
+    def __init__(self, url, deep_lvl=99):
         self.url = url
         self.max_lvl = deep_lvl + 1
         self.url_to_visit = set()
@@ -26,7 +26,6 @@ class Extractor:
                     for r in tmp:
                         self._extract_urls(r, e)
             post = len(self.url_to_visit)
-            print((prev, post))
             if prev == post:
                 flag = False
         for e in self.file_list.copy():
@@ -35,12 +34,13 @@ class Extractor:
                 self.file_list.remove(e)
         
 
-    def _get_one_url(self, url, lvl=0):
+    def _get_one_url(self, url, lvl=99):
         if url not in self.visit_list:
             self.visit_list.add(url)
             r = requests.get(url)
             urls = re.findall(
-                'https?://(?:[-\w.]|(?:%[\da-fA-F]{2}))+[/\w\.-]*(?:\?[\w\d%&=]*)?(?:#[\w\d-]*)?(?<![\.,])', r.text)
+                'https?://(?:[-\w.@#%]|(?:%[\da-fA-F]{2}))+[/\w\.-]*(?:\?[\w\d%&=]*)?(?:#[\w\d-]*)?(?<![\.,@-])', r.text)
+                #'https?://(?:[-\w.]|(?:%[\da-fA-F]{2}))+[/\w\.-]*(?:\?[\w\d%&=]*)?(?:#[\w\d-]*)?(?<![\.,])', r.text)
             urls = set(urls)
             self._clean_up_urls(url, urls)
             for e in urls.copy(): # remove element if not in range
@@ -51,6 +51,7 @@ class Extractor:
     def _clean_up_urls(self, url, urls):
         for e in urls.copy():
             if e.find(url) == -1:
+                print("Quitando: ", e)
                 urls.remove(e)
 
 
@@ -59,6 +60,7 @@ class Extractor:
         if aux.count('/') < self.max_lvl and aux.count('/') != -1:
             return True
         else:  # if not in range, delete
+            print("HI")
             return False
 
     def _extract_urls(self, element, head_str):
@@ -75,6 +77,7 @@ class Extractor:
         aux = set()
         for e in list_.copy():
             tmp = e[len(self.url):]
+            print("Scan file: ", tmp)
             if re.search(r'\.[a-zA-Z0-9]{2,4}$', tmp):
                 aux.add(e)
         return aux
