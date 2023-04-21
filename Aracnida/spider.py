@@ -17,7 +17,7 @@ def spider(args):
     if args.l == None:
         args.l = 5
     target = extractor.Extractor(args.r, args.l)
-    down = downloader.Downloader(target.file_list, args.p)
+    down = downloader.Downloader(target.file_list, target.visit_list ,args.p)
 
 
 if __name__ == '__main__':

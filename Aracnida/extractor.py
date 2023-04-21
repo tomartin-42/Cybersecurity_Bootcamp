@@ -16,6 +16,12 @@ class Extractor:
         self.url_to_visit.add(self.url)
         p1 = log.progress('Spider') 
         flag = True
+        try:
+            r = requests.get(self.url)
+            r.raise_for_status()
+        except requests.exceptions.ConnectionError:
+            print(f'Error de conexión en la solicitud a {self.url}')
+            exit(1)
         while flag:
             prev = len(self.url_to_visit)
             for e in self.url_to_visit.copy():
@@ -34,13 +40,12 @@ class Extractor:
                 self.file_list.remove(e)
         
 
-    def _get_one_url(self, url, lvl=99):
+    def _get_one_url(self, url):
         if url not in self.visit_list:
             self.visit_list.add(url)
             r = requests.get(url)
             urls = re.findall(
                 'https?://(?:[-\w.@#%]|(?:%[\da-fA-F]{2}))+[/\w\.-]*(?:\?[\w\d%&=]*)?(?:#[\w\d-]*)?(?<![\.,@-])', r.text)
-                #'https?://(?:[-\w.]|(?:%[\da-fA-F]{2}))+[/\w\.-]*(?:\?[\w\d%&=]*)?(?:#[\w\d-]*)?(?<![\.,])', r.text)
             urls = set(urls)
             self._clean_up_urls(urls)
             for e in urls.copy(): # remove element if not in range

@@ -12,6 +12,9 @@ class Main_Win(filemanager.Reader):
         self.root.title("Aracnida")
         self.root.geometry("1000x1300")
 
+        if len(self.list) == 0:
+            print("No hay archivos")
+            exit(1)
         button_container = tkinter.Frame(self.root)
         boton_quit = tkinter.Button(
             button_container, text='Salir', command=self.root.quit)

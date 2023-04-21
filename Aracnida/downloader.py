@@ -6,13 +6,16 @@ from tqdm import tqdm
 
 class Downloader:
 
-    def __init__(self, file_list, path):
+    def __init__(self, file_list, visit_list, path):
         self.path = os.getcwd() + '/' + path
         self.download_list = {f"{self.path}{i:04}_{self.extract_file_name(file)}": file for i, file in enumerate(file_list)}
         try:
             os.makedirs(self.path, exist_ok=True)
             with open(path + "download.txt", 'w') as f:
                 for e in file_list:
+                    f.write(e + '\n')
+            with open(path + "visit.txt", 'w') as f:
+                for e in visit_list:
                     f.write(e + '\n')
             self.multi_download()
         except:
