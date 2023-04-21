@@ -38,7 +38,6 @@ class Extractor:
                 continue
             print(os.path.splitext(e)[1])
             if os.path.splitext(e)[1] in self.file_include:
-                print("Add to file_list: ", e)
                 self.file_list.add(e)
                 list_.remove(e)
 
