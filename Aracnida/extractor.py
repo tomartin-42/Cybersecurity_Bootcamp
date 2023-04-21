@@ -27,7 +27,6 @@ class Extractor:
                 urls_in_text = re.findall(
                     'https?://(?:[-\w.@#%]|(?:%[\da-fA-F]{2}))+[/\w\.-]*(?:\?[\w\d%&=]*)?(?:#[\w\d-]*)?(?<![\.,@-])', r.text)
                 self._extract_files(urls_in_text)
-                #self.url_to_visit.add(urls_in_text)
             self.max_lvl -= 1
             self._extract_urls(urls_in_text)
 
