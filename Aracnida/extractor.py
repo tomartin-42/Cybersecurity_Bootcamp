@@ -7,14 +7,14 @@ import os
 class Extractor:
     file_include = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.docx', '.pdf']
 
-    def __init__(self, url, deep_lvl=99):
+    def  __init__(self, url, deep_lvl=99):
         self.url = url
         self.max_lvl = deep_lvl + 1
         self.url_to_visit = set()
         self.file_list = set()
         self.visit_list = set()
         self.url_to_visit.add(self.url)
-        p1 = log.progress('Spider') 
+        self.p1 = log.progress('Spider') 
         self._extract_urls(self.url_to_visit)
         
     def _extract_urls(self, list_to_scan):
@@ -22,10 +22,16 @@ class Extractor:
             return
         else:
             for e in list_to_scan:
+                urls_in_text = []
+                self.p1.status('Scanning: ' + e)
                 self.visit_list.add(e)
-                r = requests.get(e)
-                urls_in_text = re.findall(
-                    'https?://(?:[-\w.@#%]|(?:%[\da-fA-F]{2}))+[/\w\.-]*(?:\?[\w\d%&=]*)?(?:#[\w\d-]*)?(?<![\.,@-])', r.text)
+                try:
+                    r = requests.get(e)
+                    urls_in_text = re.findall(
+                        'https?://(?:[-\w.@#%]|(?:%[\da-fA-F]{2}))+[/\w\.-]*(?:\?[\w\d%&=]*)?(?:#[\w\d-]*)?(?<![\.,@-])', r.text)
+                except:
+                    print("[!] Error: Fail load " + e)
+                    pass
                 self._extract_files(urls_in_text)
             self.max_lvl -= 1
             self._extract_urls(urls_in_text)
@@ -35,7 +41,6 @@ class Extractor:
             if e.find(self.url) == -1:
                 list_.remove(e)
                 continue
-            print(os.path.splitext(e)[1])
             if os.path.splitext(e)[1] in self.file_include:
                 self.file_list.add(e)
                 list_.remove(e)
