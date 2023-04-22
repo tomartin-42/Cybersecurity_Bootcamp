@@ -3,12 +3,22 @@
 
 void parse_key(const std::string& key) 
 {
+  std::string parser_key(key);
+  std::string exa("0123456789ABCDEF");
   if(key.length() <= 64)
   {
     std::cout << "[!] Key length must be 64 characters" << std::endl;
     exit(1);
   }
-  std::cout << "Key: " << key << std::endl;
+  for(int i = 0; i < key.length(); i++)
+    parser_key[i] = toupper(key[i]);
+  size_t finded = parser_key.find_first_not_of(exa);
+    if (finded == std::string::npos) 
+    {
+      std::cout << "[!] Key must be hexadecimal" << std::endl;
+      exit(1);
+    }
+  std::cout << "Key: " << parser_key << std::endl;
 }
 
 int main(int argc, char **argv) {
