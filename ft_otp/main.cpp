@@ -3,16 +3,25 @@
 
 void parse_key(const std::string& key) 
 {
+  if(key.length() <= 64)
+  {
+    std::cout << "[!] Key length must be 64 characters" << std::endl;
+    exit(1);
+  }
   std::cout << "Key: " << key << std::endl;
 }
 
 int main(int argc, char **argv) {
 
+  if (argc < 2) {
+    std::cout << "Usage: " << argv[0] << " <flag> [<key>]" << std::endl;
+    exit(1);
+  }
   if (!(std::string(argv[1]).compare("-g")))
   {
     std::cout << "Falg -g" << std::endl;
-    if (argc < 2) {
-      std::cout << "Usage: " << argv[0] << " <flag> [<key>]" << std::endl;
+    if (argc < 3) {
+      std::cout << "Usage: " << argv[0] << " -g [<key_file>]" << std::endl;
       exit(1);
     }
     else
