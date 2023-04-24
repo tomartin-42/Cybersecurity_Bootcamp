@@ -9,10 +9,11 @@ class Extractor:
 
     def  __init__(self, url, deep_lvl=99):
         self.url = url
-        self.max_lvl = deep_lvl + 1
+        self.max_lvl = deep_lvl
         self.url_to_visit = set()
         self.file_list = set()
         self.visit_list = set()
+        print("MAX_LVL: " + str(self.max_lvl))
         self.url_to_visit.add(self.url)
         self.p1 = log.progress('Spider') 
         self._extract_urls(self.url_to_visit)
